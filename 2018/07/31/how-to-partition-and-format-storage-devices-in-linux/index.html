@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="storage," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言
+为 Linux 系统添置一块新的磁盘，这是件很轻松的事情。有许多工具、文件系统格式和分区方案可以满足你的特殊需求，当然这会使操作流程复杂一点。但如果你只是想尽快把磁盘用起来，操作流程也相当简单。
+本指南涵盖以下操作流程：
+
+识别系统中的新磁盘。
+创建一个独立分区，这个分区跨越整个驱动器。（大多数操作系统都要求有分区，即便是操作系统只有一个文件系统。）
+使用 Ext4 文件系统格式化分区。（E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 Linux 中分区与格式化">
+<meta property="og:url" content="http://yoursite.com/2018/07/31/how-to-partition-and-format-storage-devices-in-linux/index.html">
+<meta property="og:site_name" content="zZhiw's notes">
+<meta property="og:description" content="前言
+为 Linux 系统添置一块新的磁盘，这是件很轻松的事情。有许多工具、文件系统格式和分区方案可以满足你的特殊需求，当然这会使操作流程复杂一点。但如果你只是想尽快把磁盘用起来，操作流程也相当简单。
+本指南涵盖以下操作流程：
+
+识别系统中的新磁盘。
+创建一个独立分区，这个分区跨越整个驱动器。（大多数操作系统都要求有分区，即便是操作系统只有一个文件系统。）
+使用 Ext4 文件系统格式化分区。（E">
+<meta property="og:updated_time" content="2020-06-10T04:02:03.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在 Linux 中分区与格式化">
+<meta name="twitter:description" content="前言
+为 Linux 系统添置一块新的磁盘，这是件很轻松的事情。有许多工具、文件系统格式和分区方案可以满足你的特殊需求，当然这会使操作流程复杂一点。但如果你只是想尽快把磁盘用起来，操作流程也相当简单。
+本指南涵盖以下操作流程：
+
+识别系统中的新磁盘。
+创建一个独立分区，这个分区跨越整个驱动器。（大多数操作系统都要求有分区，即便是操作系统只有一个文件系统。）
+使用 Ext4 文件系统格式化分区。（E">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/31/how-to-partition-and-format-storage-devices-in-linux/"/>
+
+
+
+
+
+  <title> 如何在 Linux 中分区与格式化 | zZhiw's notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zZhiw's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/how-to-partition-and-format-storage-devices-in-linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zZhiw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zZhiw's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何在 Linux 中分区与格式化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T10:43:25-07:00">
+                2018-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux-basics/" itemprop="url" rel="index">
+                    <span itemprop="name">linux-basics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>前言</strong></p>
+<p>为 Linux 系统添置一块新的磁盘，这是件很轻松的事情。有许多工具、文件系统格式和分区方案可以满足你的特殊需求，当然这会使操作流程复杂一点。但如果你只是想尽快把磁盘用起来，操作流程也相当简单。</p>
+<p>本指南涵盖以下操作流程：</p>
+<ul>
+<li>识别系统中的新磁盘。</li>
+<li>创建一个独立分区，这个分区跨越整个驱动器。（大多数操作系统都要求有分区，即便是操作系统只有一个文件系统。）</li>
+<li>使用 Ext4 文件系统格式化分区。（Ext4 文件系统是大多数现代 Linux 发行版中的默认文件系统。）</li>
+<li>挂载，并且设置系统启动时自动挂载。</li>
+</ul>
+<a id="more"></a>
+<h3 id="安装工具"><a href="#安装工具" class="headerlink" title="安装工具"></a>安装工具</h3><p>对驱动器进行分区，我们将使用 <code>parted</code> 实用程序。大多数情况下，程序已默认安装。</p>
+<p>如果在 Ubuntu 或 Debian 服务器上还没有 <code>parted</code>，你可以通过键入以下命令来安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install parted</div></pre></td></tr></table></figure>
+<p>如果在 CentOS 或 Fedora 服务器上，你可以通过键入以下命令来安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo yum install parted</div></pre></td></tr></table></figure>
+<h3 id="识别系统中的新磁盘"><a href="#识别系统中的新磁盘" class="headerlink" title="识别系统中的新磁盘"></a>识别系统中的新磁盘</h3><p>在我们设置驱动器之前，我们需要在服务器中正确识别它。</p>
+<p>如果这是一个全新驱动器，要在服务器上找到它，最简单方法是查看分区方案，找未被分区的。 如果用 <code>parted</code> 列出磁盘的分区布局，它会提示一个错误，说哪个磁盘未被分区。这就可以帮助我们识别新磁盘：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo parted -l | grep Error</div></pre></td></tr></table></figure>
+<p>你应该看到一个 <code>unrecognized disk label</code> （不可识别的磁盘标签）的错误，以提示这个新的、未分区的磁盘：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">Error: /dev/sda: unrecognised disk label</div></pre></td></tr></table></figure>
+<p>你还可以使用 <code>lsblk</code> 命令查找已知容量的磁盘，这个磁盘并没有任何关联：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ lsblk</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT</div><div class="line">sda      8:0    0   100G  0 disk </div><div class="line">vda    253:0    0    20G  0 disk </div><div class="line">└─vda1 253:1    0    20G  0 part /</div></pre></td></tr></table></figure>
+<blockquote>
+<center>警告</center>
+
+<p>在进行操作前的每个会话中，务必用 <code>lsblk</code> 查看磁盘信息。每次系统引导，<code>/dev/sd*</code> 和 <code>/dev/hd*</code> 磁盘标识符未必一致。这就是说，假如你没有确认磁盘标识符，而进行分区或格式化，就会引发误操作。</p>
+<p>考虑使用更持久的磁盘标识符，例如 <code>/dev/disk/by-uuid</code>、<code>/dev/disk/by-label</code> 或 <code>/dev/disk/by-id</code>。有关详细信息，请参阅 <a href="/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux">Linux 存储术语和概念的介绍</a>。</p>
+</blockquote>
+<p>内核为磁盘分配了名称，当你知道这个名称后，你就可以对驱动器进行分区了。</p>
+<h3 id="对新驱动器进行分区"><a href="#对新驱动器进行分区" class="headerlink" title="对新驱动器进行分区"></a>对新驱动器进行分区</h3><p>如前言所述，我们将在本指南中说明，怎样创建一个跨越整个磁盘的单个分区。</p>
+<p><strong>选择一个分区标准</strong></p>
+<p>为此，我们首先需要指定要使用的分区标准。GPT 是更现代的分区标准，而 MBR 标准在各种操作系统中提供更广泛的支持。如果没有任何特殊要求，你最好在此使用 GPT。</p>
+<p>要选择 <strong>GPT</strong> 标准，请这样键入以标识磁盘：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo parted /dev/sda mklabel gpt</div></pre></td></tr></table></figure>
+<p>要选择 <strong>MBR</strong> 标准，请这样键入以标识磁盘：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo parted /dev/sda mklabel msdos</div></pre></td></tr></table></figure>
+<blockquote>
+<center>译者注</center>
+
+<p>请将原命令中的 <code>/dev/sda</code> 替换为你的磁盘标识，下同，不再赘述。</p>
+</blockquote>
+<p><strong>创建新分区</strong></p>
+<p>选择格式后，你通过键入以下命令，创建一个跨越整个驱动器的分区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo parted -a opt /dev/sda mkpart primary ext4 0% 100%</div></pre></td></tr></table></figure>
+<p>如果我们查看 <code>lsblk</code> 命令，我们应该看到新分区可用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ lsblk</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT</div><div class="line">sda      8:0    0   100G  0 disk </div><div class="line">└─sda1   8:1    0   100G  0 part </div><div class="line">vda    253:0    0    20G  0 disk </div><div class="line">└─vda1 253:1    0    20G  0 part /</div></pre></td></tr></table></figure>
+<h3 id="在新分区上创建文件系统"><a href="#在新分区上创建文件系统" class="headerlink" title="在新分区上创建文件系统"></a>在新分区上创建文件系统</h3><p>现在我们有了一个可用的分区，我们可以将它格式化为 Ext4 文件系统。 为此，使用 <code>mkfs.ext4</code> 实用程序进行分区。</p>
+<p>我们可以通过设置 <code>-L</code> 参数来添加分区标签。选择一个易于识别驱动器的名称：</p>
+<blockquote>
+<center>注意</center>
+
+<p>确保操作对象是<strong>分区</strong>而不是整个<strong>磁盘</strong>。在Linux中，磁盘名称像 <code>sda</code>、<code>sdb</code>、<code>hda</code> 这样。在这些磁盘名称末尾加一个数字，这才是分区名称。因此，我们要用类似 <code>sda1</code> 而<strong>不是</strong> <code>sda</code>。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mkfs.ext4 -L datapartition /dev/sda1</div></pre></td></tr></table></figure>
+<p>如果要在以后更改分区标签，可以使用 <code>e2label</code> 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo e2label /dev/sda1 newlabel</div></pre></td></tr></table></figure>
+<p>你可以使用 <code>lsblk</code>，来查看识别分区的所有不同方法。我们想要找出分区的名称、标签和 UUID。</p>
+<p>如果我们键入以下命令，某些版本的 <code>lsblk</code> 将显示所有这些信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo lsblk --fs</div></pre></td></tr></table></figure>
+<p>如果你的版本未显示所有相应字段，那么你可以手动指定输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo lsblk -o NAME,FSTYPE,LABEL,UUID,MOUNTPOINT</div></pre></td></tr></table></figure>
+<p>你应该看到以下信息。高亮的输出字段即是那些不同的标识方法，可用于标识新文件系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">NAME   FSTYPE LABEL         UUID                                 MOUNTPOINT</div><div class="line">sda                                                              </div><div class="line">└─sda1 ext4   datapartition 4b313333-a7b5-48c1-a957-d77d637e4fda </div><div class="line">vda                                                              </div><div class="line">└─vda1 ext4   DOROOT        050e1e34-39e6-4072-a03e-ae0bf90ba13a /</div></pre></td></tr></table></figure>
+<h3 id="挂载新文件系统"><a href="#挂载新文件系统" class="headerlink" title="挂载新文件系统"></a>挂载新文件系统</h3><p>现在，我们可以挂载文件系统以供使用了。</p>
+<p><a href="http://refspecs.linuxfoundation.org/fhs.shtml" target="_blank" rel="external">Filesystem Hierarchy Standard</a>（文件系统层次结构标准）建议，使用 <code>/mnt</code> 或其子目录来临时挂载文件系统。 但标准中并未推荐，在何处挂载永久存储器，因此随你便。在本教程中，我们将驱动器挂载到 <code>/mnt/data</code>。</p>
+<p>键入以下命令，创建挂载点目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mkdir -p /mnt/data</div></pre></td></tr></table></figure>
+<p><strong>临时挂载文件系统</strong></p>
+<p>键入以下命令，临时挂载文件系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mount -o defaults /dev/sda1 /mnt/data</div></pre></td></tr></table></figure>
+<p><strong>系统引导时自动挂载文件系统</strong></p>
+<p>如果你想在每次服务器引导时自动挂载文件系统，请修改 <code>/etc/fstab</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo nano /etc/fstab</div></pre></td></tr></table></figure>
+<p>之前，我们使用 <code>sudo lsblk --fs</code> 命令，显示出我们文件系统的三种标识符。 在文件中，我们可以使用其中任何一种。 我们使用了下面的分区标签标识符（LABEL），当然你也可以使用注释掉的其他两种标识符：</p>
+<blockquote>
+<center>/etc/fstab</center>
+
+<p>. . .<br>## Use one of the identifiers you found to reference the correct partition<br># /dev/sda1 /mnt/data ext4 defaults 0 2<br># UUID=4b313333-a7b5-48c1-a957-d77d637e4fda /mnt/data ext4 defaults 0 2<br>LABEL=datapartition /mnt/data ext4 defaults 0 2</p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<center>注意</center>
+
+<p>通过键入 <code>man fstab</code>，你能了解 <code>/etc/fstab</code> 文件中各个字段的含义。有关特殊文件系统类型的可用挂载选项的信息，请查看 <code>man [filesystem]</code>（比如 <code>man ext4</code>）。现在来说，上面的挂载代码行应该是你认识的开始。</p>
+<p>对于 SSD，有时会附加 <code>discard</code> 选项以启用 continuous TRIM。以这种方式执行 continuous TRIM，在性能和完整性影响的方面存在争议。大多数 Linux 发行版中包含 periodic TRIM，并把它作为一个替代方案。</p>
+</blockquote>
+<p>完成后，保存并关闭文件。</p>
+<p>如果之前没有挂载文件系统，现在你可以键入以下命令来挂载它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mount -a</div></pre></td></tr></table></figure>
+<p><strong>测试挂载</strong></p>
+<p>在挂载完毕之后，我们应该检查一下，以确保文件系统是可以访问的。</p>
+<p>我们可以在 <code>df</code> 命令的输出中，检查磁盘是否可用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ df -h -x tmpfs -x devtmpfs</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">Filesystem      Size  Used Avail Use% Mounted on</div><div class="line">/dev/vda1        20G  1.3G   18G   7% /</div><div class="line">/dev/sda1        99G   60M   94G   1% /mnt/data</div></pre></td></tr></table></figure>
+<p>你还应该在 <code>/mnt/data</code> 目录中看到 <code>lost+found</code> 目录，<code>/mnt/data</code> 目录是 Ext* 文件系统的根目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ls -l /mnt/data</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">total 16</div><div class="line">drwx------ 2 root root 16384 Jun  6 11:10 lost+found</div></pre></td></tr></table></figure>
+<p>通过写入测试文件，我们还可以来检查读写功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ echo &quot;success&quot; | sudo tee /mnt/data/test_file</div></pre></td></tr></table></figure>
+<p>回读文件，确保刚才正确写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cat /mnt/data/test_file</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Output</div><div class="line">success</div></pre></td></tr></table></figure>
+<p>验证新文件系统运行正常后，你就可以删除该文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo rm /mnt/data/test_file</div></pre></td></tr></table></figure>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>你的新驱动器现在已经分区、格式化、挂载，可以正常使用了。你能将原始磁盘转换为 Linux 可用于存储的文件系统，以上是基本流程。另有一些更复杂的分区、格式化和挂载方法，在某些情况下可能更合适，但以上可满足基本需求。</p>
+<p>(END)</p>
+<blockquote>
+<p>本文转译自互联网，<a href="https://www.digitalocean.com/community/tutorials/how-to-partition-and-format-storage-devices-in-linux" target="_blank" rel="external">原文链接在这里</a><br>我是 zZhiw，<a href="https://zhengzhiwei.net" target="_blank" rel="external">更多内容请关注</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/storage/" rel="tag"># storage</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/13/website-building/" rel="next" title="怎样建网站">
+                <i class="fa fa-chevron-left"></i> 怎样建网站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/" rel="prev" title="Linux 存储术语和概念的介绍">
+                Linux 存储术语和概念的介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="zZhiw" />
+          <p class="site-author-name" itemprop="name">zZhiw</p>
+           
+              <p class="site-description motion-element" itemprop="description">多图少文 奉为经典</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装工具"><span class="nav-number">1.</span> <span class="nav-text">安装工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#识别系统中的新磁盘"><span class="nav-number">2.</span> <span class="nav-text">识别系统中的新磁盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对新驱动器进行分区"><span class="nav-number">3.</span> <span class="nav-text">对新驱动器进行分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在新分区上创建文件系统"><span class="nav-number">4.</span> <span class="nav-text">在新分区上创建文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载新文件系统"><span class="nav-number">5.</span> <span class="nav-text">挂载新文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zZhiw</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
