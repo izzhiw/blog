@@ -6,15 +6,15 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -32,7 +32,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -66,47 +66,46 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="storage,block-storage,conceptual," />
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
+  <meta name="keywords" content="storage,block-storage,conceptual,">
 
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0">
 
 
 
 
 
 
-<meta name="description" content="前言
-Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自然不在话下。本文将从较高的层面上介绍，Linux 如何表示这些设备，以及如何将原始存储转换为服务器上的可用空间。">
+<meta name="description" content="前言 Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自然不在话下。本文将从较高的层面上介绍，Linux 如何表示这些设备，以及如何将原始存储转换为服务器上的可用空间。">
+<meta name="keywords" content="storage,block-storage,conceptual">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 存储术语和概念的介绍">
-<meta property="og:url" content="http://yoursite.com/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/index.html">
-<meta property="og:site_name" content="zZhiw's notes">
-<meta property="og:description" content="前言
-Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自然不在话下。本文将从较高的层面上介绍，Linux 如何表示这些设备，以及如何将原始存储转换为服务器上的可用空间。">
-<meta property="og:updated_time" content="2020-06-10T04:02:03.186Z">
+<meta property="og:url" content="http://zhengzhiwei.net/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/index.html">
+<meta property="og:site_name" content="zZhiw&#39;s notes">
+<meta property="og:description" content="前言 Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自然不在话下。本文将从较高的层面上介绍，Linux 如何表示这些设备，以及如何将原始存储转换为服务器上的可用空间。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-23T14:03:50.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 存储术语和概念的介绍">
-<meta name="twitter:description" content="前言
-Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自然不在话下。本文将从较高的层面上介绍，Linux 如何表示这些设备，以及如何将原始存储转换为服务器上的可用空间。">
+<meta name="twitter:description" content="前言 Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自然不在话下。本文将从较高的层面上介绍，Linux 如何表示这些设备，以及如何将原始存储转换为服务器上的可用空间。">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '/blog/',
     scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
@@ -127,7 +126,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/"/>
+  <link rel="canonical" href="http://zhengzhiwei.net/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/">
 
 
 
@@ -167,7 +166,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/blog/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">zZhiw's notes</span>
         <span class="logo-line-after"><i></i></span>
@@ -195,9 +194,9 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/blog/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -205,9 +204,9 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
+          <a href="/blog/about" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
             关于
           </a>
@@ -215,9 +214,9 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/blog/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
           </a>
@@ -252,12 +251,12 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/">
+    <link itemprop="mainEntityOfPage" href="http://zhengzhiwei.net/blog/2018/10/17/an-introduction-to-storage-terminology-and-concepts-in-linux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zZhiw">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -288,7 +287,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-17T14:39:17-07:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-17T14:39:17+00:00">
                 2018-10-17
               </time>
             
@@ -299,7 +298,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -311,7 +310,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux-basics/" itemprop="url" rel="index">
+                  <a href="/blog/categories/linux-basics/" itemprop="url" rel="index">
                     <span itemprop="name">linux-basics</span>
                   </a>
                 </span>
@@ -391,7 +390,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 <p><code>/dev</code> 中的设备文件用于与相关设备的内核驱动程序通信。但是，为了将设备视为可用空间的一部分，这就需要更有用的抽象。</p>
 <p>在 Linux 和其它类 Unix 操作系统中，整个系统（无论涉及多少物理设备）都由单个统一的文件树来表示。因此，当要使用驱动器或分区上的文件系统时，必须将其挂接到现有树中。<strong>挂载</strong>就是这个过程，它将格式化的分区或驱动器附加到 Linux 文件系统中，并形成一个目录。然后就可以从该目录访问驱动器的内容。</p>
 <p>驱动器几乎总是安装在专用的空目录上（安装在非空目录上意味着在卸载驱动器之前，目录的常用内容将无法访问）。可以设置许多不同的安装选项，来改变已安装设备的行为。例如，驱动器可以以只读模式安装，以确保其内容不会被更改。</p>
-<p><a href="http://refspecs.linuxfoundation.org/fhs.shtml" target="_blank" rel="external">Filesystem Hierarchy Standard</a>（文件系统层次结构标准）建议使用 <code>/mnt</code> 或其下的子目录来临时挂载文件系统。如果这正合你意，这可能是安装它的最佳位置。标准中没有建议在何处挂载永久存储器，因此你可以选择你想要的任何方案。在许多情况下，<code>/mnt</code> 或 <code>/mnt</code> 的子目录也用于永久存储器。</p>
+<p><a href="http://refspecs.linuxfoundation.org/fhs.shtml" target="_blank" rel="noopener">Filesystem Hierarchy Standard</a>（文件系统层次结构标准）建议使用 <code>/mnt</code> 或其下的子目录来临时挂载文件系统。如果这正合你意，这可能是安装它的最佳位置。标准中没有建议在何处挂载永久存储器，因此你可以选择你想要的任何方案。在许多情况下，<code>/mnt</code> 或 <code>/mnt</code> 的子目录也用于永久存储器。</p>
 <p><strong>使用 /etc/fstab 永久安装</strong></p>
 <p>Linux 系统查看名为 <code>/etc/fstab</code>（filesystem table，文件系统表）的文件，以确定在引导过程中要挂载哪些文件系统。不会自动挂载此文件中没有条目的文件系统（例外情况是 systemd <code>.mount</code> 单元文件定义的那些，但目前这些文件并不常见）。</p>
 <p><code>/etc/fstab</code> 文件非常简单。每行代表一个应挂载的、各不相同的文件系统。行中指定块设备、将其附加到的挂载点、驱动器格式和挂载选项，以及一些其它信息。</p>
@@ -412,7 +411,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 <h3 id="接下来呢？"><a href="#接下来呢？" class="headerlink" title="接下来呢？"></a>接下来呢？</h3><p>如果你希望在 Linux 系统中使用新的存储设备，<a href="/2018/07/31/how-to-partition-and-format-storage-devices-in-linux">这篇文章</a>将指导你完成分区、格式化和挂载新文件系统的基本过程。对于大多数主要关注增加额外容量的情况，这应该足够了。要了解如何执行基本存储管理任务，请查看<a href="/2018/11/01/how-to-perform-basic-administration-tasks-for-storage-devices-in-linux">这篇文章</a>。</p>
 <p>(END)</p>
 <blockquote>
-<p>本文转译自互联网，<a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-storage-terminology-and-concepts-in-linux" target="_blank" rel="external">原文链接在这里</a><br>我是 zZhiw，<a href="https://zhengzhiwei.net" target="_blank" rel="external">更多内容请关注</a></p>
+<p>本文转译自互联网，<a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-storage-terminology-and-concepts-in-linux" target="_blank" rel="noopener">原文链接在这里</a><br>我是 zZhiw，<a href="https://zhengzhiwei.net">更多内容请关注</a></p>
 </blockquote>
 
       
@@ -437,11 +436,11 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
       
         <div class="post-tags">
           
-            <a href="/tags/storage/" rel="tag"># storage</a>
+            <a href="/blog/tags/storage/" rel="tag"># storage</a>
           
-            <a href="/tags/block-storage/" rel="tag"># block-storage</a>
+            <a href="/blog/tags/block-storage/" rel="tag"># block-storage</a>
           
-            <a href="/tags/conceptual/" rel="tag"># conceptual</a>
+            <a href="/blog/tags/conceptual/" rel="tag"># conceptual</a>
           
         </div>
       
@@ -454,7 +453,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/31/how-to-partition-and-format-storage-devices-in-linux/" rel="next" title="如何在 Linux 中分区与格式化">
+              <a href="/blog/2018/07/31/how-to-partition-and-format-storage-devices-in-linux/" rel="next" title="如何在 Linux 中分区与格式化">
                 <i class="fa fa-chevron-left"></i> 如何在 Linux 中分区与格式化
               </a>
             
@@ -464,7 +463,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/11/01/how-to-perform-basic-administration-tasks-for-storage-devices-in-linux/" rel="prev" title="如何在 Linux 中执行存储设备的基本管理任务">
+              <a href="/blog/2018/11/01/how-to-perform-basic-administration-tasks-for-storage-devices-in-linux/" rel="prev" title="如何在 Linux 中执行存储设备的基本管理任务">
                 如何在 Linux 中执行存储设备的基本管理任务 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -514,7 +513,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -525,9 +524,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
-               alt="zZhiw" />
+          <img class="site-author-image" itemprop="image" src="/blog/uploads/avatar.png" alt="zZhiw">
           <p class="site-author-name" itemprop="name">zZhiw</p>
            
               <p class="site-description motion-element" itemprop="description">多图少文 奉为经典</p>
@@ -537,7 +534,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
         
           
             <div class="site-state-item site-state-posts">
-              <a href="/archives">
+              <a href="/blog/archives">
                 <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
@@ -611,7 +608,7 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2020</span>
@@ -671,46 +668,46 @@ Linux 拥有强大的系统和工具来管理硬件设备，存储器管理自�
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
   
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
   
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
