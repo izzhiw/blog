@@ -8,12 +8,12 @@ subtitle:
 description: 多图少文 奉为经典
 author: zZhiw
 language: zh-Hans
-timezone:
+timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
-root: /
+url: http://www.zhengzhiwei.net/blog
+root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -69,5 +69,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:izzhiw/izzhiw.github.io.git
+  repo: https://github.com/izzhiw/blog
   branch: master
